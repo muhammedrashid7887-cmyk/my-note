@@ -2,7 +2,8 @@ import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const API_URL = "http://localhost:3000/notes";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const NOTES_URL = `${API_URL}/notes`;
 
 export const NotesContext = createContext(null);
 
@@ -17,7 +18,7 @@ export function NotesProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get(NOTES_URL);
       setAllNotes(response.data);
       return response.data;
     } catch (err) {
@@ -53,7 +54,7 @@ export function NotesProvider({ children }) {
         updatedAt: now,
       };
 
-      const response = await axios.post(API_URL, payload);
+      const response = await axios.post(NOTES_URL, payload);
       const created = response.data;
       setAllNotes((prev) => [...prev, created]);
       toast.success("Note created successfully!");
@@ -86,7 +87,7 @@ export function NotesProvider({ children }) {
         payload.content = payload.dis;
       }
 
-      const response = await axios.patch(`${API_URL}/${id}`, payload);
+      const response = await axios.patch(`${NOTES_URL}/${id}`, payload);
       const updated = response.data;
       setAllNotes((prev) =>
         prev.map((n) => (String(n.id) === String(id) ? { ...n, ...updated } : n))
@@ -109,7 +110,7 @@ export function NotesProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${NOTES_URL}/${id}`);
       setAllNotes((prev) => prev.filter((n) => String(n.id) !== String(id)));
       toast.success("Note deleted successfully!");
     } catch (err) {
@@ -132,7 +133,7 @@ export function NotesProvider({ children }) {
       const nextArchived = noteToToggle ? !noteToToggle.archived : true;
       const now = new Date().toISOString();
 
-      const response = await axios.patch(`${API_URL}/${id}`, {
+      const response = await axios.patch(`${NOTES_URL}/${id}`, {
         archived: nextArchived,
         updatedAt: now,
       });
@@ -222,4 +223,3 @@ export const useNotes = () => {
 };
 
 export default NotesContext;
-
