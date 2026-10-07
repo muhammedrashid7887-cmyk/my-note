@@ -14,19 +14,6 @@
       "updatedAt": "2026-10-07T08:59:52.493Z"
     },
     {
-      "id": "2",
-      "title": "Shopping List",
-      "content": "Milk, bread and eggs",
-      "color": "blue",
-      "tags": [
-        "personal"
-      ],
-      "archived": false,
-      "stock": 1,
-      "createdAt": "2026-02-11T10:00:00Z",
-      "updatedAt": "2026-02-11T10:00:00Z"
-    },
-    {
       "title": "DFF",
       "content": "JDHMDF VMDF VSFVKJS",
       "dis": "JDHSFVKJS",
